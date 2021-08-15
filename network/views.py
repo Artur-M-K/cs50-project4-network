@@ -1,4 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.forms import ModelForm
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -7,14 +9,32 @@ from django.urls import reverse
 from .models import User, Post
 
 
+class CreatePost(ModelForm):
+    class Meta:
+        model = Post
+        fields = ['text']
+
+
 def index(request):
     return render(request, "network/index.html", {
         "posts": Post.objects.all()
     })
 
 
+@login_required
 def new_post(request):
-    return render(request, "network/newpost.html")
+    if request.method == 'POST':
+        form = CreatePost(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.user = request.user
+            obj.save()
+            return HttpResponseRedirect(reverse("index"))
+    else:
+        form = CreatePost
+    return render(request, "network/newpost.html", {
+        'form': form
+    })
 
 
 def login_view(request):

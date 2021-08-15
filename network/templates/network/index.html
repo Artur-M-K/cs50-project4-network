@@ -5,10 +5,14 @@
     <div class="main-section">
         {% for post in posts %}
         <div class="post-body">
-            <h4>{{post.user}}</h4>
-            <p>{{post.text}}</p>
-            <p>{{post.timestamp}}</p>
-            <div>{{post.likes}}</div>
+            <div class="post-body-header">
+                <a href="#">
+                    <h5>{{post.user}}</h5>
+                </a>
+                <p>{{post.timestamp}}</p>
+            </div>
+            <p class="post-body-text">{{post.text}}</p>
+            <div class="post-body-likes">Likes: {{post.likes}}</div>
         </div>
         {% endfor %}
     </div>
