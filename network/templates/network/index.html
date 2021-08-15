@@ -1,5 +1,17 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+<div class="wrapper">
+    <div class="main-section">
+        {% for post in posts %}
+        <div class="post-body">
+            <h4>{{post.user}}</h4>
+            <p>{{post.text}}</p>
+            <p>{{post.timestamp}}</p>
+            <div>{{post.likes}}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
 {% endblock %}
