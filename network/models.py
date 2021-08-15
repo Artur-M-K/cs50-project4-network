@@ -3,7 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    image = models.ImageField(upload_to='images',  default='images/user.png')
 
 
 class Post(models.Model):

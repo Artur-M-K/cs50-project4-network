@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms import ModelForm
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from .models import User, Post
@@ -16,8 +16,10 @@ class CreatePost(ModelForm):
 
 
 def index(request):
+    user = request.user
     return render(request, "network/index.html", {
-        "posts": Post.objects.all()
+        "posts": Post.objects.order_by('-timestamp'),
+        "userInfo": user
     })
 
 
@@ -34,6 +36,17 @@ def new_post(request):
         form = CreatePost
     return render(request, "network/newpost.html", {
         'form': form
+    })
+
+
+@login_required
+def user_info(request, id):
+    user = User.objects.get(id=id)
+    posts = Post.objects.filter(user=user)
+    return render(request, "network/user_info.html", {
+        'user_id': id,
+        'userInfo': user,
+        'posts': posts
     })
 
 

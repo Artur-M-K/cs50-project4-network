@@ -1,0 +1,32 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="user-info-container">
+    <div class="user-info-wrapper">
+        <img class="user-info-item" id="user-img" src='{{userInfo.image.url}}' alt="">
+        <h2 class="user-info-item">{{userInfo}}</h2>
+        <h5 class="user-info-item">name: <span>{{userInfo.name}}</span></h5>
+        <h5 class="user-info-item">email: <span>{{userInfo.email}}</span></h5>
+        <div class="user-info-followers">
+            <div class="followers">FOLLOWERS: 30</div>
+            <div class="following">FOLLOW: 55</div>
+        </div>
+    </div>
+    <div class="user-info-body">
+        {% for post in posts %}
+        <div class="post-body">
+            <div class="post-body-header">
+                <a href="{% url 'user_info' post.user.id %}">
+                    <h5>{{post.user}}</h5>
+                </a>
+                <p>{{post.timestamp}}</p>
+            </div>
+            <p class="post-body-text">{{post.text}}</p>
+            <div class="post-body-likes">Likes: {{post.likes}}</div>
+        </div>
+        {% empty %}
+        <h2 id="post-body-empty">You don't have any post yet</h2>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
