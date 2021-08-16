@@ -11,5 +11,8 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path("newpost", views.new_post, name="newpost"),
-    path("user_info/<int:id>/", views.user_info, name="user_info")
+    path("user_info/<int:id>/", views.user_info, name="user_info"),
+
+    # API
+    path("followers/<int:id>", views.followers, name="followers")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

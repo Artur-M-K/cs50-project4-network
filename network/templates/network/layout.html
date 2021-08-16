@@ -62,6 +62,9 @@
         {% block body %}
         {% endblock %}
     </div>
+    {% block script %}
+    <script src="{% static 'network/script.js' %}"></script>
+    {% endblock %}
 </body>
 
 </html>

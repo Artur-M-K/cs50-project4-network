@@ -1,10 +1,13 @@
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.forms import ModelForm
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Post
 
@@ -43,11 +46,29 @@ def new_post(request):
 def user_info(request, id):
     user = User.objects.get(id=id)
     posts = Post.objects.filter(user=user)
+    followers = user.followers.count()
+    follow = user.following.count()
     return render(request, "network/user_info.html", {
         'user_id': id,
         'userInfo': user,
-        'posts': posts
+        'posts': posts,
+        'followers': followers,
+        'follow': follow
     })
+
+
+# @login_required
+def followers(request, id):
+    user = User.objects.get(id=id)
+    currentUser = User.objects.get(id=request.user.id)
+    following = user.following.all()
+
+    if id != currentUser.id:
+        if currentUser in following:
+            user.following.remove(currentUser.id)
+        else:
+            user.following.add(currentUser.id)
+    return HttpResponseRedirect(reverse(user_info, args=[user.id]))
 
 
 def login_view(request):

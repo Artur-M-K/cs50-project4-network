@@ -8,9 +8,22 @@
         <h5 class="user-info-item">name: <span>{{userInfo.name}}</span></h5>
         <h5 class="user-info-item">email: <span>{{userInfo.email}}</span></h5>
         <div class="user-info-followers">
-            <div class="followers">FOLLOWERS: 30</div>
-            <div class="following">FOLLOW: 55</div>
+            <div class="followers">FOLLOW: {{followers}}</div>
+            <div class="following">FOLLOWERS: {{follow}}</div>
         </div>
+        {% if user.is_authenticated %}
+        {% if user.id != userInfo.id %}
+        {% if user in userInfo.following.all %}
+        <a href="{% url 'followers' id=userInfo.id %}">
+            <button class="add">Unfollow</button>
+        </a>
+        {% else %}
+        <a href="{% url 'followers' id=userInfo.id %}">
+            <button class="add">Follow</button>
+        </a>
+        {% endif %}
+        {% endif %}
+        {% endif %}
     </div>
     <div class="user-info-body">
         {% for post in posts %}
