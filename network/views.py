@@ -1,9 +1,9 @@
-import json
+from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.forms import ModelForm
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -19,10 +19,16 @@ class CreatePost(ModelForm):
 
 
 def index(request):
+
     user = request.user
+    posts = Post.objects.order_by('-timestamp')
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request, "network/index.html", {
-        "posts": Post.objects.order_by('-timestamp'),
-        "userInfo": user
+        "posts": page_obj,
+        "userInfo": user,
+
     })
 
 
@@ -46,30 +52,35 @@ def new_post(request):
 def user_info(request, id):
     user = User.objects.get(id=id)
     posts = Post.objects.filter(user=user)
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     followers = user.followers.count()
     follow = user.following.count()
     usersShow = user.following.all()
     return render(request, "network/user_info.html", {
         'user_id': id,
         'userInfo': user,
-        'posts': posts,
+        'posts': page_obj,
         'followers': followers,
         'follow': follow,
         'users': usersShow
     })
 
 
+@login_required
 def show_followers_posts(request, id):
     user = User.objects.get(id=request.user.id)
     userShow = user.followers.all()
-    posts = Post.objects.all()
+    posts = Post.objects.filter(user__id__in=userShow)
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request, "network/following.html", {
         'users': userShow,
-        'posts': posts,
+        'posts': page_obj,
         'userMain': user
     })
-
-# @login_required
 
 
 def followers(request, id):
