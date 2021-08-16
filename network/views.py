@@ -48,16 +48,30 @@ def user_info(request, id):
     posts = Post.objects.filter(user=user)
     followers = user.followers.count()
     follow = user.following.count()
+    usersShow = user.following.all()
     return render(request, "network/user_info.html", {
         'user_id': id,
         'userInfo': user,
         'posts': posts,
         'followers': followers,
-        'follow': follow
+        'follow': follow,
+        'users': usersShow
     })
 
 
+def show_followers_posts(request, id):
+    user = User.objects.get(id=request.user.id)
+    userShow = user.followers.all()
+    posts = Post.objects.all()
+    return render(request, "network/following.html", {
+        'users': userShow,
+        'posts': posts,
+        'userMain': user
+    })
+
 # @login_required
+
+
 def followers(request, id):
     user = User.objects.get(id=id)
     currentUser = User.objects.get(id=request.user.id)

@@ -1,0 +1,41 @@
+{% extends 'network/layout.html' %}
+
+{% block body %}
+
+<h1>Hello</h1>
+<div class="user-info-container">
+    <div class="user-info-wrapper">
+        {% for user in users %}
+        <div>
+            <p>{{user}}</p>
+
+            <a href="{% url 'followers' id=user.id %}">
+                <button type="button" class="btn btn-outline-primary">Unfollow</button>
+            </a>
+
+        </div>
+
+        {% endfor %}
+    </div>
+    <div class="user-info-body">
+        {% for user in users %}
+        {% for post in posts %}
+        {% if user == post.user %}
+        <div class="post-body">
+            <div class="post-body-header">
+                <a href="{% url 'user_info' post.user.id %}">
+                    <h5>{{post.user}}</h5>
+                </a>
+                <p>{{post.timestamp}}</p>
+            </div>
+            <p class="post-body-text">{{post.text}}</p>
+            <div class="post-body-likes">Likes: {{post.likes}}</div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% empty %}
+        <h2>You are not following any users</h2>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
