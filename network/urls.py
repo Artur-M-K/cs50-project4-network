@@ -11,9 +11,11 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path("newpost", views.new_post, name="newpost"),
+    path("edit_post/<int:id>", views.edit_user_post, name="edit_post"),
     path("user_info/<int:id>/", views.user_info, name="user_info"),
     path("following/<int:id>/", views.show_followers_posts, name="following"),
 
     # API
-    path("followers/<int:id>", views.followers, name="followers")
+    path("followers/<int:id>", views.followers, name="followers"),
+    path("edit/<int:id>", views.edit_post, name="edit")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

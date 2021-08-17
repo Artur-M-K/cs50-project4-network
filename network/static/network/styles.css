@@ -71,18 +71,23 @@ box-shadow: 0px 17px 14px -16px rgba(0,0,0,0.25);
 .post-body-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    padding: 5px 15px;
+    align-items: center;
+    padding: 10px 20px;
 }
 
 .post-body-header > a {
     text-decoration: none;
 }
 
+.post-body-header > a > h5 {
+    margin-bottom: 0;
+}
+
 .post-body-header > p {
     font-size: 14px;
     font-weight: 200;
     color: #999;
+    margin-bottom: 0;
 }
 
 .post-body-text {
@@ -97,6 +102,12 @@ box-shadow: 0px 17px 14px -16px rgba(0,0,0,0.25);
     margin-right: 0;
     padding: 5px 15px;
     text-align: right;
+}
+
+.post-buttons {
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
 }
 
 /* login and register */
@@ -214,12 +225,12 @@ box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
     width: 80%;
     margin: 10px 20px;
     -webkit-box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3); 
-box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
+    box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
 }
 
 .user-info-wrapper {
     width: 25%;
-    height: 55vh;
+    height: 60vh;
     margin: 10px;
     display: flex;
     flex-direction: column;
@@ -229,15 +240,20 @@ box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
 box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
 }
 
-.user-info-wrapper h5 {
+.user-info-wrapper h6 {
     width: 100%;
     padding-left: 20px;
+    padding-right: 20px;
     text-align: left;
     font-weight: 200;
+    /* font-size: 18px; */
 }
 
-.user-info-wrapper h5 span {
-    padding-left: 7.5%;
+.user-info-wrapper h6 span {
+    /* padding-left: 7.5%; */
+    display: inline-block;
+    /* width: 60%; */
+    text-align: center;
 }
 
 .user-info-item {
@@ -254,10 +270,12 @@ box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
 
 .followers, .following {
     width: 40%;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
     text-align: center;
     border: 1px solid #aaa;
+    border-radius: 5px;
   
 }
 
@@ -275,6 +293,42 @@ box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
 #post-body-empty {
     text-align: center;
     margin: 15% auto;
+}
+
+.add {
+    margin: 20px 0 10px;
+}
+
+/* following page */
+
+#following-wrapper {
+    justify-content: flex-start;
+    padding: 30px 0;
+    height: 100%;
+}
+
+#following-title {
+    padding: 15px 0 5px 15px;
+    font-weight: 200;
+}
+
+.following-user { 
+    display: flex;
+    width: 80%;
+    margin: 5px auto;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+.following-user > p {
+    margin: 0;
+}
+
+.message {
+    text-align: center;
+    margin: 5% auto;
 }
 
 @media only screen and (max-width: 639px) {

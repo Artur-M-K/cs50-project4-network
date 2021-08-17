@@ -4,9 +4,9 @@
 <div class="user-info-container">
     <div class="user-info-wrapper">
         <img class="user-info-item" id="user-img" src='{{userInfo.image.url}}' alt="">
-        <h2 class="user-info-item">{{userInfo}}</h2>
-        <h5 class="user-info-item">name: <span>{{userInfo.name}}</span></h5>
-        <h5 class="user-info-item">email: <span>{{userInfo.email}}</span></h5>
+        <h4 class="user-info-item">{{userInfo}}</h4>
+        <h6 class="user-info-item">name: <span>{{userInfo.name}}</span></h6>
+        <h6 class="user-info-item">email: <span>{{userInfo.email}}</span></h6>
         <div class="user-info-followers">
             <div class="followers">FOLLOW: {{followers}}</div>
             <div class="following">FOLLOWERS: {{follow}}</div>
@@ -14,12 +14,12 @@
         {% if user.is_authenticated %}
         {% if user.id != userInfo.id %}
         {% if user in userInfo.following.all %}
-        <a href="{% url 'followers' id=userInfo.id %}">
-            <button class="add">Unfollow</button>
+        <a class="add" href="{% url 'followers' id=userInfo.id %}">
+            <button class="btn btn-outline-primary">Unfollow</button>
         </a>
         {% else %}
-        <a href="{% url 'followers' id=userInfo.id %}">
-            <button class="add">Follow</button>
+        <a class="add" href="{% url 'followers' id=userInfo.id %}">
+            <button class="btn btn-outline-primary">Follow</button>
         </a>
         {% endif %}
         {% endif %}
@@ -35,7 +35,10 @@
                 <p>{{post.timestamp}}</p>
             </div>
             <p class="post-body-text">{{post.text}}</p>
-            <div class="post-body-likes">Likes: {{post.likes}}</div>
+            <div class="post-buttons">
+                <button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+                <div class="post-body-likes">Likes: {{post.likes}}</div>
+            </div>
         </div>
         {% empty %}
         <h2 id="post-body-empty">You don't have any post yet</h2>
@@ -43,25 +46,4 @@
     </div>
 </div>
 
-<!--Pagination-->
-<div class="container p-4">
-    <div class="pagination justify-content-center">
-        <span class="step-links">
-            {% if posts.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ posts.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ posts.number }} of {{ posts.paginator.num_pages }}
-            </span>
-
-            {% if posts.has_next %}
-            <a href="?page={{ posts.next_page_number }}">next</a>
-            <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
-</div>
-<!--end of Pagination-->
 {% endblock %}

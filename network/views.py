@@ -8,6 +8,7 @@ from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.serializers import serialize
 
 from .models import User, Post
 
@@ -46,6 +47,34 @@ def new_post(request):
     return render(request, "network/newpost.html", {
         'form': form
     })
+
+
+@login_required
+def edit_user_post(request, id):
+    post = Post.objects.filter(pk=id)
+    if request.method == 'POST':
+        form = CreatePost(request.POST, instance=post)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.save()
+            return HttpResponseRedirect(reverse("index"))
+    else:
+        form = CreatePost
+    return render(request, "network/edit_post.html", {
+        'form': form,
+
+    })
+
+
+@csrf_exempt
+@login_required
+def edit_post(request, id):
+    post = Post.objects.filter(pk=id)
+    post_json = serialize("json", post, fields=('user', 'text'))
+    if request.method == 'GET':
+        # return HttpResponse(post_json, content_type='application/json')
+        # if request.method == 'GET':
+        return HttpResponse(post_json, content_type="application/json")
 
 
 @login_required

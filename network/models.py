@@ -19,7 +19,7 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.text
+        return self.text, self.id
 
 
 # class UserFollowUnfollow(models.Model):
