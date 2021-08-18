@@ -51,7 +51,7 @@ def new_post(request):
 
 @login_required
 def edit_user_post(request, id):
-    post = Post.objects.filter(pk=id)
+    post = Post.objects.get(pk=id)
     if request.method == 'POST':
         form = CreatePost(request.POST, instance=post)
         if form.is_valid():
@@ -59,22 +59,22 @@ def edit_user_post(request, id):
             obj.save()
             return HttpResponseRedirect(reverse("index"))
     else:
-        form = CreatePost
+        form = CreatePost(instance=post)
     return render(request, "network/edit_post.html", {
         'form': form,
+        'post': post,
+        'id': id
 
     })
 
 
-@csrf_exempt
-@login_required
-def edit_post(request, id):
-    post = Post.objects.filter(pk=id)
-    post_json = serialize("json", post, fields=('user', 'text'))
-    if request.method == 'GET':
-        # return HttpResponse(post_json, content_type='application/json')
-        # if request.method == 'GET':
-        return HttpResponse(post_json, content_type="application/json")
+# @csrf_exempt
+# @login_required
+# def edit_post(request, id):
+#     post = Post.objects.filter(pk=id)
+#     post_json = serialize("json", post, fields=('user', 'text'))
+#     if request.method == 'GET':
+#         return HttpResponse(post_json, content_type="application/json")
 
 
 @login_required

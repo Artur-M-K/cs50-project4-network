@@ -14,8 +14,8 @@
             <p class="post-body-text">{{post.text}}</p>
             <div class="post-buttons">
                 {% if userInfo == post.user %}
-                <a href="{% url 'edit_post' id=post.id %}" class="btn btn-outline-primary btn-sm" id="edit"
-                    data-id={{post.id}}>Edit</a>
+                <a href="{% url 'edit_post' id=post.id %}"><button class="btn btn-outline-primary btn-sm" id="edit"
+                        data-id={{post.id}}>Edit</button></a>
                 {% endif %}
                 <div class="post-body-likes">Likes: {{post.likes}}</div>
             </div>

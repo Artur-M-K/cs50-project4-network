@@ -36,7 +36,8 @@
             </div>
             <p class="post-body-text">{{post.text}}</p>
             <div class="post-buttons">
-                <button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+                <a href="{% url 'edit_post' id=post.id %}" class="btn btn-outline-primary btn-sm" id="edit"
+                    data-id={{post.id}}>Edit</a>
                 <div class="post-body-likes">Likes: {{post.likes}}</div>
             </div>
         </div>
