@@ -14,10 +14,15 @@
             <p class="post-body-text">{{post.text}}</p>
             <div class="post-buttons">
                 {% if userInfo == post.user %}
-                <a href="{% url 'edit_post' id=post.id %}"><button class="btn btn-outline-primary btn-sm" id="edit"
-                        data-id={{post.id}}>Edit</button></a>
+                <a href="{% url 'edit_post' id=post.id %}"><button class="btn btn-outline-primary btn-sm"
+                        id="edit">Edit</button></a>
                 {% endif %}
-                <div class="post-body-likes">Likes: {{post.likes}}</div>
+                <div class="post-body-likes" data-id={{post.id}}>Likes: {{post.likes}}</div>
+                <form action="{% url 'like' post.id %}" method="POST">
+                    {% csrf_token %}
+                    <button id="like" value={{post.id}} name="like" type="submit">LIKE</button>
+                </form>
+
             </div>
         </div>
         {% endfor %}

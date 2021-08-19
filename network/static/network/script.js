@@ -1,14 +1,39 @@
-// const editButtons = document.querySelectorAll('#edit');
-// let data = [];
-// editButtons.forEach(button => {
+const likeButtons = document.querySelectorAll('#like');
+// const likes = document.querySelector('.post-body-likes');
+
+// likeButtons.forEach(button => {
 //     button.addEventListener('click', () => {
 //         console.log('dziala', button.dataset.id);
-//         fetch(`/edit/${button.dataset.id}`)
+//         fetch(`/like/${button.dataset.id}`)
 //         .then(response => response.json())
-//         .then(post => {
-//             data.push(post)
-//     })
+//         .then(data => {
+        
+//             console.log(data)
+
+        
+//         });
+        
 //     })
 // })
-// document.querySelector('#id_text').innerHTML = 'ddddddd';
-// console.log(data)
+
+likeButtons.forEach(button => {
+    button.addEventListener('click', () => likePost(button.value))
+})
+
+function likePost(id) {
+    const likes = document.querySelectorAll(`[data-id="${id}"]`);
+    console.log(likes)
+    fetch(`/like/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            like: true
+        })
+    });
+    fetch(`/like/${id}`)
+            .then(response => response.json())
+            .then(post => {
+              console.log(post.likes)
+              likes[0].innerHTML = 'Likes: ' + post.likes
+            });
+   
+}

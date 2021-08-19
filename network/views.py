@@ -1,3 +1,4 @@
+import json
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -5,12 +6,12 @@ from django.forms import ModelForm
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http.response import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers import serialize
 
-from .models import User, Post
+from .models import User, Post, Like
 
 
 class CreatePost(ModelForm):
@@ -26,6 +27,7 @@ def index(request):
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     return render(request, "network/index.html", {
         "posts": page_obj,
         "userInfo": user,
@@ -66,15 +68,6 @@ def edit_user_post(request, id):
         'id': id
 
     })
-
-
-# @csrf_exempt
-# @login_required
-# def edit_post(request, id):
-#     post = Post.objects.filter(pk=id)
-#     post_json = serialize("json", post, fields=('user', 'text'))
-#     if request.method == 'GET':
-#         return HttpResponse(post_json, content_type="application/json")
 
 
 @login_required
@@ -123,6 +116,46 @@ def followers(request, id):
         else:
             user.following.add(currentUser.id)
     return HttpResponseRedirect(reverse(user_info, args=[user.id]))
+
+
+@csrf_exempt
+def like_post(request, id):
+    # post = get_object_or_404(Post, id=request.POST.get('like'))
+    # postView = Post.objects.get(id=id)
+    # liked = False
+    # # if request.method == "PUT":
+    # #     data = json.loads(request.body)
+    # if post.likes.filter(id=request.user.id).exists():
+    #     # if data.get('like'):
+    #     post.likes.remove(request.user)
+    #     liked = False
+    #     return JsonResponse(post.likes.count(), safe=False)
+    # else:
+    #     post.likes.add(request.user)
+    #     liked = True
+    # # post.save()
+    #     return JsonResponse(post.likes.count(), safe=False)
+    # if request.method == "GET":
+    #     return JsonResponse(post.serialize(), status=201)
+    #     # return JsonResponse(post.likes.count(), safe=False)
+    # return HttpResponse(status=204)
+    post = Post.objects.get(id=id)
+
+    if request.method == "GET":
+        return JsonResponse(post.serialize())
+
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        print(data.get("like"))
+        if data.get("like"):
+            Like.objects.create(user=request.user, post=post)
+            post.likes = Like.objects.filter(post=post).count()
+            post.save()
+        else:  # unlike
+            Like.objects.filter(user=request.user, post=post).delete()
+            post.likes = Like.objects.filter(post=post).count()
+            post.save()
+    return HttpResponse(status=204)
 
 
 def login_view(request):

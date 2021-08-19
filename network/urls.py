@@ -17,5 +17,5 @@ urlpatterns = [
 
     # API
     path("followers/<int:id>", views.followers, name="followers"),
-    # path("edit/<int:id>", views.edit_post, name="edit")
+    path("like/<int:id>", views.like_post, name="like")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

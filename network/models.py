@@ -16,10 +16,26 @@ class Post(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     text = models.TextField(max_length=500)
     timestamp = models.DateTimeField(auto_now_add=True)
+    # likes = models.ManyToManyField(User, related_name='likes', blank=True)
     likes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.text, self.id
+        return self.text
+
+    # def total_likes(self):
+    #     return self.likes.count()
+
+    def serialize(self):
+        return {
+            'likes': self.likes
+        }
+
+
+class Like(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="likeduser")
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="likedpost")
 
 
 # class UserFollowUnfollow(models.Model):
