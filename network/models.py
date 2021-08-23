@@ -16,8 +16,8 @@ class Post(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     text = models.TextField(max_length=500)
     timestamp = models.DateTimeField(auto_now_add=True)
-    # likes = models.ManyToManyField(User, related_name='likes', blank=True)
-    likes = models.IntegerField(default=0)
+    likes = models.IntegerField()
+    isLiked = models.BooleanField()
 
     def __str__(self):
         return self.text
@@ -27,7 +27,8 @@ class Post(models.Model):
 
     def serialize(self):
         return {
-            'likes': self.likes
+            'likes': self.likes,
+            'isLiked': self.isLiked
         }
 
 
@@ -36,22 +37,3 @@ class Like(models.Model):
         User, on_delete=models.CASCADE, related_name="likeduser")
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="likedpost")
-
-
-# class UserFollowUnfollow(models.Model):
-#     user_id = models.ForeignKey(
-#         "User", related_name="following", on_delete=models.CASCADE)
-#     following_user_id = models.ForeignKey(
-#         "User", related_name="followers", on_delete=models.CASCADE)
-#     created = models.DateTimeField(auto_now_add=True)
-
-#     class Meta:
-#         constraints = [
-#             models.UniqueConstraint(
-#                 fields=['user_id', 'following_user_id'],  name="unique_followers")
-#         ]
-
-#         ordering = ["-created"]
-
-    # def __str__(self):
-    #     f"{self.user_id} follows {self.following_user_id}"

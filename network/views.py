@@ -120,25 +120,7 @@ def followers(request, id):
 
 @csrf_exempt
 def like_post(request, id):
-    # post = get_object_or_404(Post, id=request.POST.get('like'))
-    # postView = Post.objects.get(id=id)
-    # liked = False
-    # # if request.method == "PUT":
-    # #     data = json.loads(request.body)
-    # if post.likes.filter(id=request.user.id).exists():
-    #     # if data.get('like'):
-    #     post.likes.remove(request.user)
-    #     liked = False
-    #     return JsonResponse(post.likes.count(), safe=False)
-    # else:
-    #     post.likes.add(request.user)
-    #     liked = True
-    # # post.save()
-    #     return JsonResponse(post.likes.count(), safe=False)
-    # if request.method == "GET":
-    #     return JsonResponse(post.serialize(), status=201)
-    #     # return JsonResponse(post.likes.count(), safe=False)
-    # return HttpResponse(status=204)
+
     post = Post.objects.get(id=id)
 
     if request.method == "GET":
@@ -147,14 +129,19 @@ def like_post(request, id):
     elif request.method == "PUT":
         data = json.loads(request.body)
         print(data.get("like"))
+        # like post
         if data.get("like"):
             Like.objects.create(user=request.user, post=post)
             post.likes = Like.objects.filter(post=post).count()
+            post.isLiked = True
             post.save()
-        else:  # unlike
+
+        else:  # unlike post
             Like.objects.filter(user=request.user, post=post).delete()
             post.likes = Like.objects.filter(post=post).count()
+            post.isLiked = False
             post.save()
+
     return HttpResponse(status=204)
 
 
