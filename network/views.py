@@ -138,12 +138,12 @@ def like_post(request):
             user=profile, post_id=post_id)
 
         if not created:
-            if like.value == 'Like':
-                like.value = 'Unlike'
+            if like.value == 'like':
+                like.value = 'unlike'
             else:
-                like.value = 'Like'
+                like.value = 'like'
         else:
-            like.value = 'Like'
+            like.value = 'like'
 
             post_obj.save()
             like.save()

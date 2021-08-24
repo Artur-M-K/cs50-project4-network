@@ -7,12 +7,11 @@ $('.like-form').submit(function(e){
   const trim = $.trim(likeText)
 
   const url = $(this).attr('action')
-  console.log(trim)
-
+  
   let res;
   const likes = $(`.like-count${post_id}`).text()
   const trimCount = parseInt(likes)
-  console.log(trimCount, likes)
+  
   $.ajax({
     type: 'POST',
     url: url,
@@ -21,12 +20,12 @@ $('.like-form').submit(function(e){
       'post_id':post_id,
     },
     success: function(response) {
-      console.log('success', response)
-      if(trim === 'Unlike') {
-        $(`.like-btn${post_id}`).text('Like')
+      
+      if(trim === 'unlike') {
+        $(`.like-btn${post_id}`).text('like')
         res = trimCount - 1
       }else{
-        $(`.like-btn${post_id}`).text('Unlike')
+        $(`.like-btn${post_id}`).text('unlike')
         res = trimCount + 1
       }
 

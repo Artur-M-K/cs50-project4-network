@@ -17,17 +17,21 @@
                 <a href="{% url 'edit_post' id=post.id %}"><button class="btn btn-outline-primary btn-sm"
                         id="edit">Edit</button></a>
                 {% endif %}
-                <div class="post-body-likes like-count{{post.id}}">{{post.total_likes}}</div>
+                <div class="post-likes">
+                    <div class="post-body-likes like-count{{post.id}}">{{post.total_likes}}</div>
+                    <div>likes</div>
+                </div>
+
 
                 <form action="{% url 'like-post-view' %}" method="POST" class="like-form" id="{{post.id}}">
                     {% csrf_token %}
                     <input type="hidden" name="post_id" value={{post.id}}>
                     {% if user.is_authenticated %}
-                    <button class="like-btn{{post.id}}" type="submit">
+                    <button id="like-btn" class="like-btn{{post.id}} btn btn-primary btn-sm" type="submit">
                         {% if profile not in post.liked.all %}
-                        Like
+                        like
                         {% else %}
-                        Unlike
+                        unlike
                         {% endif %}
                     </button>
                     {% endif %}
