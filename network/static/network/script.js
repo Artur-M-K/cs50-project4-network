@@ -1,40 +1,39 @@
 
-function likePost(id) {
-  
-    const likes = document.querySelectorAll(`[data-id="${id}"]`);
-    console.log(likes[0].innerHTML)
-    
-    fetch(`/like/${id}`)
-            .then(response => response.json())
-            .then(post => {
-                console.log(post)
-              if (post.isLiked == false) {
-                fetch(`/like/${id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify({
-                        isLiked: true,
-                        like: true
-                    })
-                });
-                likes[0].innerHTML = 'Likes: ' + post.likes;
-                const btn = document.getElementById(`like${id}`)
-                console.log(btn)
-                btn.innerHTML = 'Unlike'
-              }
-              if (post.isLiked == true){
-                fetch(`/like/${id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify({
-                        isLiked: false,
-                        like: false
-                    })
-                    
-                });
-                likes[0].innerHTML = 'Likes: ' + post.likes;
-                const btn = document.getElementById(`like${id}`)
-                btn.innerHTML = 'Like'
-              }
-              // location.reload();
-            });
-            
-}
+$('.like-form').submit(function(e){
+  e.preventDefault()
+
+  const post_id = $(this).attr('id')
+  const likeText = $(`.like-btn${post_id}`).text()
+  const trim = $.trim(likeText)
+
+  const url = $(this).attr('action')
+  console.log(trim)
+
+  let res;
+  const likes = $(`.like-count${post_id}`).text()
+  const trimCount = parseInt(likes)
+  console.log(trimCount, likes)
+  $.ajax({
+    type: 'POST',
+    url: url,
+    data: {
+      'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+      'post_id':post_id,
+    },
+    success: function(response) {
+      console.log('success', response)
+      if(trim === 'Unlike') {
+        $(`.like-btn${post_id}`).text('Like')
+        res = trimCount - 1
+      }else{
+        $(`.like-btn${post_id}`).text('Unlike')
+        res = trimCount + 1
+      }
+
+      $(`.like-count${post_id}`).text(res)
+    },
+    error: function(response) {
+      console.log('error', response)
+    }
+  })
+})
