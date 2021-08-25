@@ -16,6 +16,8 @@
                 {% if userInfo == post.user %}
                 <a href="{% url 'edit_post' id=post.id %}"><button class="btn btn-outline-primary btn-sm"
                         id="edit">Edit</button></a>
+                <a href="{% url 'delete' id=post.id %}" class="btn btn-outline-primary btn-sm" id="delete"
+                    data-id={{post.id}}>Delete</a>
                 {% endif %}
                 <div class="post-likes">
                     <div class="post-body-likes like-count{{post.id}}">{{post.total_likes}}</div>

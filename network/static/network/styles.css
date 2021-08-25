@@ -231,6 +231,17 @@ box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
     outline: none;
 }
 
+.edit-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.edit-buttons .btn {
+    margin-left: 10px !important;
+}
+
 /* user info */
 .user-info-container {
     display: flex;
@@ -261,13 +272,10 @@ box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
     padding-right: 20px;
     text-align: left;
     font-weight: 200;
-    /* font-size: 18px; */
 }
 
 .user-info-wrapper h6 span {
-    /* padding-left: 7.5%; */
     display: inline-block;
-    /* width: 60%; */
     text-align: center;
 }
 
@@ -314,6 +322,10 @@ box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
     margin: 20px 0 10px;
 }
 
+#edit {
+    margin-right: 5px;
+}
+
 /* following page */
 
 #following-wrapper {
@@ -344,6 +356,39 @@ box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
 .message {
     text-align: center;
     margin: 5% auto;
+}
+
+/* delete */
+.delete {
+    margin: 10% auto;
+    width: 40%;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3); 
+    box-shadow: 0px 0px 19px 1px rgba(0,0,0,0.3);
+}
+
+#delete-form {
+    width: 80%;
+}
+
+.delete h4 {
+    margin-bottom: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+.delete-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.delete-buttons a {
+    margin-right: 10px;
 }
 
 @media only screen and (max-width: 639px) {

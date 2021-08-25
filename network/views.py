@@ -53,6 +53,20 @@ def new_post(request):
 
 
 @login_required
+def delete_post(request, id):
+    user = request.user.id
+    post = Post.objects.get(pk=id)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('index')
+
+    return render(request, 'network/delete.html', {
+        'id': id,
+        'user': user
+    })
+
+
+@login_required
 def edit_user_post(request, id):
     post = Post.objects.get(pk=id)
     if request.method == 'POST':
