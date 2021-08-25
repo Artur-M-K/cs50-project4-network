@@ -87,6 +87,7 @@ def edit_user_post(request, id):
 
 @login_required
 def user_info(request, id):
+    userID = request.user.id
     user = User.objects.get(id=id)
     posts = Post.objects.filter(user=user)
     paginator = Paginator(posts, 10)
@@ -101,7 +102,8 @@ def user_info(request, id):
         'posts': page_obj,
         'followers': followers,
         'follow': follow,
-        'users': usersShow
+        'users': usersShow,
+        'id': userID
     })
 
 

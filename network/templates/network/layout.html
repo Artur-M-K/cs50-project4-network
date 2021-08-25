@@ -70,6 +70,7 @@
         {% endblock %}
 
         <!--Pagination-->
+        {% if posts.paginator.num_pages > 1 %}
         <div class="container p-4">
             <div class="pagination justify-content-center">
                 <span class="step-links">
@@ -89,6 +90,7 @@
                 </span>
             </div>
         </div>
+        {% endif %}
         <!--end of Pagination-->
     </div>
     {% block script %}
