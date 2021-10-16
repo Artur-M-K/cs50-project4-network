@@ -1,0 +1,73 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="user-info-container">
+    <div class="user-info-wrapper">
+        <img class="user-info-item" id="user-img" src='{{userInfo.image.url}}' alt="">
+        <h4 class="user-info-item">{{userInfo}}</h4>
+        <h6 class="user-info-item">name: <span>{{userInfo.name}}</span></h6>
+        <h6 class="user-info-item">email: <span>{{userInfo.email}}</span></h6>
+        <div class="user-info-followers">
+            <div class="followers">FOLLOW: {{followers}}</div>
+            <div class="following">FOLLOWERS: {{follow}}</div>
+        </div>
+        {% if user.is_authenticated %}
+        {% if user.id != userInfo.id %}
+        {% if user in userInfo.following.all %}
+        <a class="add" href="{% url 'followers' id=userInfo.id %}">
+            <button class="btn btn-outline-primary">Unfollow</button>
+        </a>
+        {% else %}
+        <a class="add" href="{% url 'followers' id=userInfo.id %}">
+            <button class="btn btn-outline-primary">Follow</button>
+        </a>
+        {% endif %}
+        {% endif %}
+        {% endif %}
+    </div>
+    <div class="user-info-body">
+        {% for post in posts %}
+       
+        <div class="post-body">
+            <div class="post-body-header">
+                <a href="{% url 'user_info' post.user.id %}">
+                    <h5>{{post.user}}</h5>
+                </a>
+                <p>{{post.timestamp}}</p>
+            </div>
+            <p class="post-body-text">{{post.text}}</p>
+            <div class="post-buttons">
+                {% if user_id == id %}
+                <a href="{% url 'edit_post' id=post.id %}" class="btn btn-outline-primary btn-sm" id="edit"
+                    data-id={{post.id}}>Edit</a>
+                <a href="{% url 'delete' id=post.id %}" class="btn btn-outline-primary btn-sm" id="delete"
+                    data-id={{post.id}}>Delete</a>
+                {% endif %}
+
+                <div class="post-likes">
+                    <div class="post-body-likes like-count{{post.id}}">{{post.total_likes}}</div>
+                    <div>likes</div>
+                </div>
+                <form action="{% url 'like-post-view' %}" method="POST" class="like-form" id="{{post.id}}">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value={{post.id}}>
+                    {% if user.is_authenticated %}
+                    <button id="like-btn" class="like-btn{{post.id}} btn btn-primary btn-sm" type="submit">
+                        {% if user not in post.liked.all %}
+                        like
+                        {% else %}
+                        unlike
+                        {% endif %}
+                    </button>
+                    {% endif %}
+                </form>
+            </div>
+
+        </div>
+        {% empty %}
+        <h2 id="post-body-empty">You don't have any post yet</h2>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

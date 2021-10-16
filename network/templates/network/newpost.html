@@ -1,0 +1,17 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="create-post-wrapper">
+    <h2>Create Post</h2>
+    <form action="{% url 'newpost' %}" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <div class="edit-buttons">
+            <a href="{% url 'index' %}">Cancel</a>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

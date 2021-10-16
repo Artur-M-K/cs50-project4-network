@@ -1,0 +1,57 @@
+{% extends 'network/layout.html' %}
+
+{% block body %}
+
+<h4 id="following-title">following users posts</h4>
+<div class="user-info-container">
+    <div class="user-info-wrapper" id="following-wrapper">
+        {% for user in users %}
+        <div class="following-user">
+            <p>{{user}}</p>
+            <a href="{% url 'followers' id=user.id %}">
+                <button type="button" class="btn btn-outline-primary">Unfollow</button>
+            </a>
+        </div>
+        {% empty %}
+        <h5>No followers</h5>
+        {% endfor %}
+    </div>
+    <div class="user-info-body">
+
+        {% for post in posts %}
+        <div class="post-body">
+            <div class="post-body-header">
+                <a href="{% url 'user_info' post.user.id %}">
+                    <h5>{{post.user}}</h5>
+                </a>
+                <p>{{post.timestamp}}</p>
+            </div>
+            <p class="post-body-text">{{post.text}}</p>
+            <div class="post-buttons">
+                <div class="post-likes">
+                    <div class="post-body-likes like-count{{post.id}}">{{post.total_likes}}</div>
+                    <div>likes</div>
+                </div>
+                <form action="{% url 'like-post-view' %}" method="POST" class="like-form" id="{{post.id}}">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value={{post.id}}>
+                    {% if user.is_authenticated %}
+                    <button id="like-btn" class="like-btn{{post.id}} btn btn-primary btn-sm" type="submit">
+                        {% if user not in post.liked.all %}
+                        like
+                        {% else %}
+                        unlike
+                        {% endif %}
+                    </button>
+                    {% endif %}
+                </form>
+            </div>
+
+        </div>
+
+        {% empty %}
+        <h3 class="message">You are not following any users</h3>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

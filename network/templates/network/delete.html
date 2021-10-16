@@ -1,0 +1,17 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+<div class="container delete">
+    <h4>Are you sure you want to delete post?</h4>
+    <form action="{% url 'delete' id %}" method="POST" id="delete-form">
+        {% csrf_token %}
+        <div class="delete-buttons">
+            <a href="{% url 'user_info' user %}">Cancel</a>
+            <input type="submit" name="Confirm" class="btn btn-primary">
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

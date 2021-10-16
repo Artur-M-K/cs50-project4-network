@@ -1,0 +1,49 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="wrapper">
+    <div class="main-section">
+        {% for post in posts %}
+        <div class="post-body">
+            <div class="post-body-header">
+                <a href="{% url 'user_info' post.user.id %}">
+                    <h5>{{post.user}}</h5>
+                </a>
+                <p>{{post.timestamp}}</p>
+            </div>
+            <p class="post-body-text">{{post.text}}</p>
+            <div class="post-buttons">
+                {% if userInfo == post.user %}
+                <a href="{% url 'edit_post' id=post.id %}"><button class="btn btn-outline-primary btn-sm"
+                        id="edit">Edit</button></a>
+                <a href="{% url 'delete' id=post.id %}" class="btn btn-outline-primary btn-sm" id="delete"
+                    data-id={{post.id}}>Delete</a>
+                {% endif %}
+                <div class="post-likes">
+                    <div class="post-body-likes like-count{{post.id}}">{{post.total_likes}}</div>
+                    <div>likes</div>
+                </div>
+
+
+                <form action="{% url 'like-post-view' %}" method="POST" class="like-form" id="{{post.id}}">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value={{post.id}}>
+                    {% if user.is_authenticated %}
+                    <button id="like-btn" class="like-btn{{post.id}} btn btn-primary btn-sm" type="submit">
+                        {% if profile not in post.liked.all %}
+                        like
+                        {% else %}
+                        unlike
+                        {% endif %}
+                    </button>
+                    {% endif %}
+                </form>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}
