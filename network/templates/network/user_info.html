@@ -6,11 +6,8 @@
         <!-- <img class="user-info-item" id="user-img" src='{{userInfo.image.url}}' alt=""> -->
         <img class="user-info-item" id="user-img" src='../../static/images/user.png' alt="">
         <h4 class="user-info-item">{{userInfo}}</h4>
-        {% if username.name %}
-        <h6 class="user-info-item">name: <span>{{userInfo.name}}</span></h6>
-        {% else %}
+        
         <h6 class="user-info-item">name: <span>{{userInfo}}</span></h6>
-        {% endif %}
         <h6 class="user-info-item">email: <span>{{userInfo.email}}</span></h6>
         <div class="user-info-followers">
             <div class="followers">FOLLOW: {{followers}}</div>
