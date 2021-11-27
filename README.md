@@ -26,4 +26,5 @@ Project is created with:
 To run this project, install it locally:
 * ```git clone``` this repository or download and extract .zip
 * Install requirements with ```pip install -r requirements.txt```
+* change ```DEBUG = False``` to ```DEBUG = True``` in ```project4/settings.py``` file
 * Run with ```python manage.py runserver``` or ```python3 manage.py runserver```
