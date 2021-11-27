@@ -1,3 +1,3 @@
-web: gunicorn project4.wsgi --log-file - --log-level debug
+release: python manage.py migrate
+web: gunicorn project4.wsgi --log-file - 
 heroku ps:scale web=1
-manage.py migrate
